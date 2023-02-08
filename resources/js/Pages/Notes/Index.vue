@@ -1,6 +1,7 @@
 <script setup>
-import AppLayout from '@/Layouts/AppLayout.vue';
-import { Link } from '@inertiajs/vue3'
+import AppLayout from '@/Layouts/AppLayout.vue'
+import { ref, watch } from 'vue'
+import { router, Link } from '@inertiajs/vue3'
 
 defineProps({
   notes: {
@@ -8,6 +9,13 @@ defineProps({
     default: []
   }
 })
+
+const q = ref('');  
+
+watch(q, (value) => {
+  router.get( route( 'notes.index', { q: value } ), {}, { preserveState: true } );
+});
+
 </script>
 
 <template>
@@ -28,8 +36,15 @@ defineProps({
                   </div>
                 </div>
                 <div class="md:col-span-2 mt-5 md:mt-0">
-                  <div class="flex flex-col items-start gap-4 shadow bg-white md:rounded-md p-4">
-                    <Link class="bg-blue-500 text-white font-bold py-2 px-4 rounded-md" :href="route('notes.create')">Create</Link>
+                  <div class="shadow bg-white md:rounded-md p-4">
+                    <div class="flex items-start justify-between gap-4">
+                      <input type="text" class="form-input rounded-md shadow-sm" placeholder="Search..." v-model="q">
+                      <Link class="bg-blue-500 text-white font-bold py-2 px-4 rounded-md" :href="route('notes.create')">Create</Link>  
+                    </div>
+
+
+                    <hr class="my-6">
+                    
                     <table v-if="notes.length > 0">
                       <tr class="border" v-for="(note, index) in notes" :key="`note-${index}`">
                         <td class="px-4 py-2">
