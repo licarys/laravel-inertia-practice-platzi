@@ -2,6 +2,7 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { ref } from 'vue';
 import { Link } from '@inertiajs/vue3'
+import { useForm } from '@inertiajs/vue3'
 
 const props = defineProps({
   note: {
@@ -10,10 +11,14 @@ const props = defineProps({
   }
 })
 
-const form = ref({
-  excerpt: props.note.excerpt,
-  content: props.note.content
+const form = useForm({
+  excerpt:props.note.excerpt,
+  content:props.note.content
 });
+
+const submit = () => {
+  form.put(route('notes.update',props.note.id), form);
+};
 </script>
 
 <template>
@@ -35,7 +40,7 @@ const form = ref({
                 </div>
                 <div class="md:col-span-2 mt-5 md:mt-0">
                   <div class="shadow bg-white md:rounded-md p-4">
-                    <form>
+                    <form @submit.prevent="submit">
                       <label for="excerpt" class="block font-medium text-sm text-gray-700">Excerpt</label>
                       <textarea name="excerpt" rows="5" class="form-input w-full rounded-md shadow-sm" v-model="form.excerpt"></textarea>
 
