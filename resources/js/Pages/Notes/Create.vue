@@ -10,7 +10,7 @@ const form = useForm({
 });
 
 const submit = () => {
-  form.put(route('notes.store'), form);
+  form.post(route('notes.store'), form);
 };
 </script>
 
