@@ -19,6 +19,12 @@ const form = useForm({
 const submit = () => {
   form.put(route('notes.update',props.note.id), form);
 };
+
+const destroy = () => {
+  if(confirm('Are you sure you want to delete')) {
+    form.delete(route('notes.destroy', props.note.id));
+  } 
+}
 </script>
 
 <template>
@@ -49,6 +55,10 @@ const submit = () => {
 
                       <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-4 rounded-md">Save</button>
                     </form>
+
+                    <hr class="my-6">
+
+                    <a class="bg-slate-300 hover:bg-slate-400 text-white font-bold py-2 px-4 mt-4 rounded-md" href="#" @click.prevent="destroy">Delete</a>
                   </div>
                 </div>
               </div>
